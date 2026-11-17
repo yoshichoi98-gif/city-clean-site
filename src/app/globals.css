@@ -1,0 +1,128 @@
+@import "tailwindcss";
+
+/* ---------------------------------------------------------------
+   City Clean — design tokens.
+   Brand navy (#141F38) and light blue (#7AA7DD) on cool paper.
+   Display serif at light weight, mono for micro-labels.
+   Contrast verified: ink 15.14:1, accent 6.31:1, muted 4.98:1 on paper.
+   --------------------------------------------------------------- */
+@theme {
+  /* Brand: navy #141F38 + light blue #7AA7DD.
+     The light blue is 2.31:1 on paper, so it is a DARK-SURFACE colour only —
+     never body text on light. --color-accent is its darker sibling (6.31:1)
+     for links and labels on the paper background. */
+  --color-paper: #f5f6f8;
+  --color-paper-warm: #eaeef4;
+  --color-ink: #141f38;
+  --color-ink-soft: #26314a;
+  --color-muted: #5f6b80;
+  --color-line: #dde2e9;
+  --color-line-strong: #c3ccd9;
+  --color-card: #ffffff;
+
+  --color-accent: #2c5c96;
+  --color-accent-soft: #3e6eac;
+  --color-accent-light: #7aa7dd;
+  --color-accent-wash: #e8eef6;
+
+  --color-danger: #a3271a;
+
+  --font-display: var(--font-instrument), ui-serif, Georgia, serif;
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-mono-jb), ui-monospace, "SF Mono", monospace;
+
+  --spacing-section: 6rem;
+
+  --radius-card: 2px;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background: var(--color-paper);
+    color: var(--color-ink-soft);
+    font-family: var(--font-sans);
+    font-size: 16px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* Display type: large, light weight, tight tracking — the reference look */
+  h1, h2, h3 {
+    font-family: var(--font-display);
+    font-weight: 400;
+    color: var(--color-ink);
+    letter-spacing: -0.02em;
+    line-height: 1.05;
+    text-wrap: balance;
+  }
+
+  h4, h5, h6 {
+    font-family: var(--font-sans);
+    font-weight: 600;
+    color: var(--color-ink);
+    letter-spacing: -0.01em;
+  }
+
+  p { text-wrap: pretty; }
+
+  :focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 3px;
+  }
+
+  ::selection {
+    background: var(--color-ink);
+    color: var(--color-paper);
+  }
+}
+
+@utility label-mono {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+}
+
+@utility rule-top {
+  border-top: 1px solid var(--color-line);
+}
+
+/* Stand-in "before" state: same frame, graded to look neglected.
+   Only applied when a pair has no real before photograph yet. */
+.grime {
+  filter: sepia(0.62) saturate(0.45) brightness(0.62) contrast(0.88) hue-rotate(-12deg);
+}
+
+/* Motion — standard tier. Everything has a static final state. */
+@keyframes rise {
+  from { opacity: 0; transform: translateY(18px); }
+  to   { opacity: 1; transform: none; }
+}
+
+@keyframes fade {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+.reveal {
+  animation: rise 0.7s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.reveal-fade {
+  animation: fade 0.9s ease-out both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
